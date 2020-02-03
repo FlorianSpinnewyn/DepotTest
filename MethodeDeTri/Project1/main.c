@@ -33,11 +33,12 @@ int tri_naif(int* tab, int nbvaleur) {
 			}
 		}
 	}
-	return copi;
+	return nbPermutation;
 }
 
 int TriSelection(int* tab, int nbvaleur) {
 	int tmp;
+	int permutation = 0;
 	if (nbvaleur == 0) {
 		return 1;
 	}
@@ -46,9 +47,11 @@ int TriSelection(int* tab, int nbvaleur) {
 			tmp = tab[i];
 			tab[i] = tab[nbvaleur - 1];
 			tab[nbvaleur - 1] = tmp;
+			permutation++;
 		}
 	}
 	TriSelection(tab, nbvaleur - 1);
+	return permutation;
 }
 
 
@@ -75,7 +78,7 @@ int tri_bule(int* tab, int nbvaleur) {
 		}
 		j++;
 	} while ((swap == 0) || (j < nbvaleur));
-	return copi;
+	return nbPermutation;
 }
 
 
@@ -133,6 +136,7 @@ int TriDichotomie(int* tab, int tabsize) {
 
 int TriInsertionSequentiel(int* tab, int tabsize) {
 	int tmp;
+	int permutation = 0;
 	for (int i = 0; i < (tabsize - 1); i++) {
 		int j = 0;
 		while (tab[i + 1] < tab[i - j]) {
@@ -140,19 +144,18 @@ int TriInsertionSequentiel(int* tab, int tabsize) {
 			tab[i + 1] = tab[i - j];
 			tab[i - j] = tmp;
 			j++;
+			permutation++;
 		}
 	}
-	return 0;
+	return permutation;
 }
 
 int tri_flo(int* tab, int nbvaleur) {
 	int nbPermutation = 0;
-	int copi = 0;
 	int tmp;
 	int j = nbvaleur - 1;
 	while (j != 0) {
 		for (int i = 0; i < (j); i++) {
-			copi++;
 			if (tab[i] >= tab[j]) {
 				tmp = tab[j];
 				tab[j] = tab[i];
@@ -162,10 +165,11 @@ int tri_flo(int* tab, int nbvaleur) {
 		}
 		j--;
 	}
-	return copi;
+	return nbPermutation;
 }
 
 int testdesfonctionsDychotomie(int *tab, int size){
+	printf("Dychotomie:");
 	printf("\nTableaux Initiale : \n");
 	afficheTab(tab, size);
 	printf("\nTableaux trie : \n");
@@ -176,24 +180,88 @@ int testdesfonctionsDychotomie(int *tab, int size){
 }
 
 int testdesfonctionsTriFlo(int* tab, int size) {
+	printf("MonTri:");
 	printf("\nTableaux Initiale : \n");
 	afficheTab(tab, size);
 	printf("\nTableaux trie : \n");
-	TriDichotomie(tab, size);
+	tri_flo(tab, size);
 	afficheTab(tab, size);
-	printf("\n\nIl y a %d permutations dans ce tri\n\n\n", TriDichotomie(tab, size));
+	printf("\n\nIl y a %d permutations dans ce tri\n\n\n", tri_flo(tab, size));
 	return 0;
 }
 
+int testdesfonctionsTriSequantiel(int* tab, int size) {
+	printf("TriSequantiel:");
+	printf("\nTableaux Initiale : \n");
+	afficheTab(tab, size);
+	printf("\nTableaux trie : \n");
+	TriInsertionSequentiel(tab, size);
+	afficheTab(tab, size);
+	printf("\n\nIl y a %d permutations dans ce tri\n\n\n", TriInsertionSequentiel(tab, size));
+	return 0;
+}
+
+int testdesfonctionstri_bule(int* tab, int size) {
+	printf("Tribule:");
+	printf("\nTableaux Initiale : \n");
+	afficheTab(tab, size);
+	printf("\nTableaux trie : \n");
+	tri_bule(tab, size);
+	afficheTab(tab, size);
+	printf("\n\nIl y a %d permutations dans ce tri\n\n\n", tri_bule(tab, size));
+	return 0;
+}
+
+int testdesfonctionstri_naif(int* tab, int size) {
+	printf("Trinaif:");
+	printf("\nTableaux Initiale : \n");
+	afficheTab(tab, size);
+	printf("\nTableaux trie : \n");
+	tri_naif(tab, size);
+	afficheTab(tab, size);
+	printf("\n\nIl y a %d permutations dans ce tri\n\n\n", tri_naif(tab, size));
+	return 0;
+}
+
+int testdesfonctionstri_selection(int* tab, int size) {
+	printf("TriSelection:");
+	printf("\nTableaux Initiale : \n");
+	afficheTab(tab, size);
+	printf("\nTableaux trie : \n");
+	TriSelection(tab, size);
+	afficheTab(tab, size);
+	printf("\n\nIl y a %d permutations dans ce tri\n\n\n", TriSelection(tab, size));
+	return 0;
+}
+
+
+
 int main() {
-	srand(time(NULL));
 	int* copi = 0;
 	int tab[50];
 	for (int i = 0; i < 50; i++) {
 		tab[i] = (rand() % (50 - 0 + 1)) + 0;
 	}
-	testdesfonctions(tab, 50);
-
-
+	testdesfonctionsDychotomie(tab, 50);
+	for (int i = 0; i < 50; i++) {
+		tab[i] = (rand() % (50 - 0 + 1)) + 0;
+	}
+	testdesfonctionsTriFlo(tab, 50);
+	for (int i = 0; i < 50; i++) {
+		tab[i] = (rand() % (50 - 0 + 1)) + 0;
+	}
+	testdesfonctionsTriSequantiel(tab, 50);
+	//for (int i = 0; i < 50; i++) {
+	//	tab[i] = (rand() % (50 - 0 + 1)) + 0;
+	//}
+	//testdesfonctionstri_bule(tab, 50);
+	for (int i = 0; i < 50; i++) {
+		tab[i] = (rand() % (50 - 0 + 1)) + 0;
+	}
+	testdesfonctionstri_naif(tab, 50);
+	for (int i = 0; i < 50; i++) {
+		tab[i] = (rand() % (50 - 0 + 1)) + 0;
+	}
+	testdesfonctionstri_selection(tab, 50);
 	return 0;
 }
